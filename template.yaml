@@ -1,6 +1,6 @@
 #cloud formation template to create ECR repo.
 AWSTemplateFormatVersion: 2010-09-09
-Description: This teplate is for deployment of ecr docker  image
+Description: This template is for deployment of ecr docker  image
 Parameters:
   ProjectName:
     Type: String
@@ -23,6 +23,21 @@ Resources:
             Principal:
               AWS: 'arn:aws:iam::113184785079:root'
             Action:
-              - 'ecr:CreateRepository'
-              - 'ecr:ReplicateImage'
-            Resource: 'arn:aws:ecr:ap-south-1:113184785079:repository/ecr-test'
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+              - "ecr:PutImage"
+              - "ecr:InitiatLayerUpload"
+              - "ecr:UploadLayerPart"
+              - "ecr:CompleteLayerUpload"
+              - "ecr:GetAuthorizationToken"
+              - "ecr:GetRepositoryPolicy"
+              - "ecr:DescribeRepositories"
+              - "ecr:ListImages"
+              - "ecr:DescribeImages"
+              - "ecr:PutLifecyclePolicy"
+              - "ecr:DeleteLifecyclePolicy"
+              - "ecr:StartImageScan"
+              - "ecr:DescribeImageScanFindings"
+              
+    

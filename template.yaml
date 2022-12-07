@@ -1,44 +1,47 @@
-#cloud formation template to create ECR repo.
-AWSTemplateFormatVersion: 2010-09-09
-Description: This template is for deployment of ecr docker  image
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >
+  This template creates ECR resources
+
 Parameters:
-  ProjectName:
+  IAMUserName:
     Type: String
-  Stage:
-    Type: String
-   StageShortCode:
-    Type: String
-  regionShortCode:
-    Type: String
-     
+    Description: IAM User Name
+    Default: ecr-deploy
+    AllowedPattern: "[a-zA-Z0-9-_]+"
+    ConstraintDescription: must be a valid IAM user name  
+
 Resources:
-  ECRTestRepository
+  ECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName:'ecr-test-${StageShortCode}-${regionShortCode}-repo*
-    RepositoryPolicyText:
-        Version: 2012-10-17
+      RepositoryName: !Ref AWS::ecr-test
+      RepositoryPolicyText:
+        Version: "2012-10-17"
         Statement:
-          - Sid: UpdatedRegistryPolicy
+          - Sid: "AllowPushPull"
             Effect: Allow
             Principal:
-              AWS: 'arn:aws:iam::113184785079:root'
+              AWS:
+                !Join [
+                  "",
+                  [
+                    "arn:aws:iam::",
+                    !Ref AWS::113184785079,
+                    ":user/",
+                    !Ref ecr-deploy
+                  ],
+                ]
             Action:
               - "ecr:GetDownloadUrlForLayer"
               - "ecr:BatchGetImage"
               - "ecr:BatchCheckLayerAvailability"
               - "ecr:PutImage"
-              - "ecr:InitiatLayerUpload"
+              - "ecr:InitiateLayerUpload"
               - "ecr:UploadLayerPart"
               - "ecr:CompleteLayerUpload"
-              - "ecr:GetAuthorizationToken"
-              - "ecr:GetRepositoryPolicy"
-              - "ecr:DescribeRepositories"
-              - "ecr:ListImages"
-              - "ecr:DescribeImages"
-              - "ecr:PutLifecyclePolicy"
-              - "ecr:DeleteLifecyclePolicy"
-              - "ecr:StartImageScan"
-              - "ecr:DescribeImageScanFindings"
-              
-    
+
+Outputs:
+  ECRRepository:
+    Description: ECR repository
+    Value: !Ref ECRRepository

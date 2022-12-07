@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       docker: 18
 
-  pre-build:
+  pre_build:
     commands:
       - REPOSITORY_URI=${accountID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ecr-test
       - echo my repo url is $REPOSITORY_URI

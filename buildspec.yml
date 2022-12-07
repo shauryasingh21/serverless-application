@@ -13,7 +13,7 @@ phases:
           aws cloudformation package \
             --template-file template.yaml \
             --s3-bucket shaurya-ecs \
-            --output-template-file template-export.yaml
+            --output-template-file template.export.yaml
           #aws cloudformation package --template-file template.yaml --s3-bucket "$S3_BUCKET" 
           #--s3-prefix $serverless-application --output-template-file template-export.yml --metadata "codeBuildId"=$CODEBUILD_BUILD_ID,"ENVIRONMENT"=$Stage
           #aws cloudformation package --template-file template.yaml --s3-bucket "$S3_BUCKET" --s3-prefix $serverless-application --output-template-file template-export-secondary.yml --metadata "codeBuildId"=$CODEBUILD_BUILD_ID,"ENVIRONMENT"=$Stage
@@ -24,7 +24,7 @@ phases:
 artifacts:
   type: zip
   files:
-    - template-export.yml
+    - template.export.yml
     - buildspec.yml
     - template.yaml
     

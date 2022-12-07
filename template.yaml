@@ -12,7 +12,7 @@ Parameters:
     Type: String
      
 Resources:
-  ECRTestRepository
+  ecr-test
     Type: AWS::ECR::Repository
     Properties:
       PolicyText:
@@ -25,4 +25,4 @@ Resources:
             Action:
               - 'ecr:CreateRepository'
               - 'ecr:ReplicateImage'
-            Resource: 'arn:aws:ecr:ap-south-1:113184785079:repository/ECRTestRepository'
+            Resource: 'arn:aws:ecr:ap-south-1:113184785079:repository/ecr-test'

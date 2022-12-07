@@ -1,7 +1,7 @@
 version: 0.2
 
 phases:
-  pre-build:
+  pre_build:
     commands:
       # Prevent files from haing a timestamp before 1980
       - find . -mtime +10950 -exec touch {} \;

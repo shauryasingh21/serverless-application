@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+
+  pre-build:
+    commands:
+      - REPOSITORY_URI=$113184785079.dkr.ecr.ap-south-1.amazonaws.com/ECRTestRepository
+      - echo my repo url is $REPOSITORY_URI
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo my ecr repo latest version is $IMAGE_TAG
+  build:
+    commands:
+      - docker --version
+      - aws --version
+      - echo Build started on `date`
+      - docker build --build-arg STAGE=$Stage -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+artifacts:
+  type: zip
+  files:
+    - buildspec.yml
+    - template.yaml

@@ -10,8 +10,8 @@ phases:
      commands:
      - |
           #Package cloudFormation and create an export file (-secondary required for backwards compatibility for production release)
-          aws cloudformation package --template-file template.yaml --s3-bucket_sudirectry "$shaurya-ecs" --s3-prefix $serverless-application --output-template-file template-export.yml --metadata "codeBuildId"=$CODEBUILD_BUILD_ID
-          
+          aws cloudformation package --template-file template.yaml --s3-bucket "$shaurya-ecs" --s3-prefix $serverless-application --output-template-file template-export.yml --metadata "codeBuildId"=$CODEBUILD_BUILD_ID,"ENVIRONMENT"=$Stage
+          aws cloudformation package --template-file template.yaml --s3-bucket "$shaurya-ecs" --s3-prefix $serverless-application --output-template-file template-export-secondary.yml --metadata "codeBuildId"=$CODEBUILD_BUILD_ID,"ENVIRONMENT"=$Stage
   post_build:
     commands:
     - echo "build"
@@ -20,6 +20,7 @@ artifacts:
   type: zip
   files:
     - template-export.yml
+    - template-export-secondary.yml
     - buildspec.yml
     - template.yaml
     

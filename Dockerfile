@@ -1,6 +1,6 @@
 ##This is just Demo project that will display index.html file content
 #import base image
-FROM mcr.microsoft.com/dotnet/sdk:6.0:
+FROM mcr.microsoft.com/dotnet/sdk:6.0:latest
 
 #switch user to root
 #USER root

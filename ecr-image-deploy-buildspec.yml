@@ -7,7 +7,8 @@ phases:
 
   pre_build:
     commands:
-      - REPOSITORY_URI=${accountID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ecr-test
+      - $(aws ecr get-login --region ap-south-1 --no-include-email)
+      - REPOSITORY_URI=113184785079.dkr.ecr.ap-south-1.amazonaws.com/ecr-test
       - echo my repo url is $REPOSITORY_URI
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}

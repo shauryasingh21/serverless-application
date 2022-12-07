@@ -1,6 +1,6 @@
 #cloud formation template to create ECR repo.
 AWSTemplateFormatVersion: 2010-09-09
-Description: This teplate is for deployment of ecr docker image
+Description: This teplate is for deployment of ecr docker  image
 Parameters:
   ProjectName:
     Type: String

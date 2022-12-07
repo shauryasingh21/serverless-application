@@ -12,10 +12,11 @@ Parameters:
     Type: String
      
 Resources:
-  ecr-test
+  ECRTestRepository
     Type: AWS::ECR::Repository
     Properties:
-      PolicyText:
+      RepositoryName:'ecr-test-${StageShortCode}-${regionShortCode}-repo*
+    RepositoryPolicyText:
         Version: 2012-10-17
         Statement:
           - Sid: UpdatedRegistryPolicy

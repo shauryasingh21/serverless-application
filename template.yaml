@@ -7,40 +7,30 @@ Parameters:
   IAMUserName:
     Type: String
     Description: IAM User Name
-    Default: ecr-deploy
-    AllowedPattern: "[a-zA-Z0-9-_]+"
-    ConstraintDescription: must be a valid IAM user name  
+    Default: root
 
-Resources:
-  ECRRepository:
-    Type: AWS::ECR::Repository
-    Properties:
-      RepositoryName: !Ref AWS::ecr-test
-      RepositoryPolicyText:
-        Version: "2012-10-17"
-        Statement:
-          - Sid: "AllowPushPull"
-            Effect: Allow
-            Principal:
-              AWS:
-                !Join [
-                  "",
-                  [
-                    "arn:aws:iam::",
-                    !Ref AWS::113184785079,
-                    ":user/",
-                    !Ref ecr-deploy
-                  ],
-                ]
-            Action:
-              - "ecr:GetDownloadUrlForLayer"
-              - "ecr:BatchGetImage"
-              - "ecr:BatchCheckLayerAvailability"
-              - "ecr:PutImage"
-              - "ecr:InitiateLayerUpload"
-              - "ecr:UploadLayerPart"
-              - "ecr:CompleteLayerUpload"
-
+MyRepository: 
+  Type: AWS::ECR::Repository
+  Properties: 
+    RepositoryName: "test-repository"
+    RepositoryPolicyText: 
+      Version: "2012-10-17"
+      Statement: 
+        - 
+          Sid: AllowPushPull
+          Effect: Allow
+          Principal: 
+            AWS: 
+              - "arn:aws:iam::123456789012:root"
+          Action: 
+            - "ecr:GetDownloadUrlForLayer"
+            - "ecr:BatchGetImage"
+            - "ecr:BatchCheckLayerAvailability"
+            - "ecr:PutImage"
+            - "ecr:InitiateLayerUpload"
+            - "ecr:UploadLayerPart"
+            - "ecr:CompleteLayerUpload"
+            
 Outputs:
   ECRRepository:
     Description: ECR repository

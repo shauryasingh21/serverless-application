@@ -1,32 +1,27 @@
 version: 0.2
 
 phases:
-  
-
   pre_build:
     commands:
-      - $(aws ecr get-login --region ap-south-1 --no-include-email) --region ap-south-1)
-      - REPOSITORY_URI=113184785079.dkr.ecr.ap-south-1.amazonaws.com/ecr-test
-      - echo my repo url is $REPOSITORY_URI
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 13184785079.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=113184785079.dkr.ecr.us-east-1.amazonaws.com/demo1212
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - echo my ecr repo latest version is $IMAGE_TAG
   build:
     commands:
-      - docker --version
-      - aws --version
       - echo Build started on `date`
-      
-      - docker build --build-arg STAGE=$Stage -t $REPOSITORY_URI:latest .
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 113184785079.dkr.ecr.ap-south-1.amazonaws.com
-      - echo Repository Latest $REPOSITORY_URI:latest
+      - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - echo Repository Image $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      
 artifacts:
   type: zip
   files:
